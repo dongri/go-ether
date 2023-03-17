@@ -10,7 +10,7 @@ const (
 )
 
 func TestSignKeccak256Message(t *testing.T) {
-	expected := "10xbbc3ce195c7102047d4d9bd7c8d5addbe1aca03926dc977ae944477865cbcb60080b11de23eded9a648f5d821f98a4b68165e09cad1ccbf9b75f72cc132feb051c"
+	expected := "0xbbc3ce195c7102047d4d9bd7c8d5addbe1aca03926dc977ae944477865cbcb60080b11de23eded9a648f5d821f98a4b68165e09cad1ccbf9b75f72cc132feb051c"
 	hello := "hello"
 	world := "world"
 	message := hello + world
