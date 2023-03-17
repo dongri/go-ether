@@ -1,4 +1,4 @@
-module github.com/dongri/go-ether-sign
+module github.com/dongri/go-ether
 
 go 1.20
 
