@@ -12,7 +12,7 @@ address     0: 0x0c9B5d5C6f4f095DA9Db0685689b6a22b0bF17C6
 
 ## SignKeccak256Message
 Like Web3.js
-```javasctipt
+```javascript
 const sha3message = web3.utils.soliditySha3("hello", "world")
 const signature = await web3.eth.accounts.sign(sha3message, privateKey)
 ```
