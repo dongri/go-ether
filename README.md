@@ -1,6 +1,6 @@
 # Go Ether
 
-## Test Data
+## Test Wallet
 https://github.com/dongri/web3/tree/master/ethereum-wallet-generator
 
 ```
