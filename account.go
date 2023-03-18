@@ -13,16 +13,20 @@ const (
 	MessagePrefix = "\x19Ethereum Signed Message:\n"
 )
 
-func SignKeccak256Message(message string, privateKeyString string) (string, error) {
-	privateKey, err := crypto.HexToECDSA(privateKeyString)
+func SignKeccak256Message(types []string, args []string, privateKey string) (string, error) {
+	byteData, err := parseTypedData(types, args)
 	if err != nil {
 		return "", err
 	}
-	keccak256Hash := crypto.Keccak256Hash([]byte(message))
+	keccak256Hash := crypto.Keccak256Hash(byteData)
 	bytes := keccak256Hash.Bytes()
 	prefixedMessage := fmt.Sprintf("%s%d%s", MessagePrefix, len(bytes), bytes)
 	digestHash := crypto.Keccak256([]byte(prefixedMessage))
-	signature, err := crypto.Sign(digestHash, privateKey)
+	prv, err := crypto.HexToECDSA(privateKey)
+	if err != nil {
+		return "", err
+	}
+	signature, err := crypto.Sign(digestHash, prv)
 	if err != nil {
 		return "", err
 	}
