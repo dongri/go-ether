@@ -25,7 +25,7 @@ func SignKeccak256Message(types []string, args []string, privateKey string) (str
 	bytes := keccak256Hash.Bytes()
 	prefixedMessage := fmt.Sprintf("%s%d%s", MessagePrefix, len(bytes), bytes)
 	digestHash := crypto.Keccak256([]byte(prefixedMessage))
-	prv, err := crypto.HexToECDSA(privateKey)
+	prv, err := strToPrivateKey(privateKey)
 	if err != nil {
 		return "", err
 	}
@@ -38,12 +38,13 @@ func SignKeccak256Message(types []string, args []string, privateKey string) (str
 }
 
 func PersonalSign(message string, privateKey string) (string, error) {
-	prv, err := crypto.HexToECDSA(privateKey)
+	prefixedMessage := fmt.Sprintf("%s%d%s", MessagePrefix, len(message), message)
+	hashedMessage := crypto.Keccak256Hash([]byte(prefixedMessage))
+
+	prv, err := strToPrivateKey(privateKey)
 	if err != nil {
 		return "", err
 	}
-	prefixedMessage := fmt.Sprintf("%s%d%s", MessagePrefix, len(message), message)
-	hashedMessage := crypto.Keccak256Hash([]byte(prefixedMessage))
 	signatureBytes, err := crypto.Sign(hashedMessage.Bytes(), prv)
 	if err != nil {
 		return "", err
@@ -75,7 +76,7 @@ func VerifyPersonalSign(signature string, message string, address string) (bool,
 }
 
 func PrivateKeyToAddress(privateKey string) (string, error) {
-	prv, err := crypto.HexToECDSA(privateKey)
+	prv, err := strToPrivateKey(privateKey)
 	if err != nil {
 		return "", err
 	}
@@ -89,6 +90,21 @@ func PrivateKeyToAddress(privateKey string) (string, error) {
 }
 
 // === Private funcs ===
+
+func strToPrivateKey(str string) (*ecdsa.PrivateKey, error) {
+	prv, err := crypto.HexToECDSA(remove0xPrefix(str))
+	if err != nil {
+		return nil, err
+	}
+	return prv, nil
+}
+
+func remove0xPrefix(s string) string {
+	if len(s) >= 2 && s[:2] == "0x" {
+		return s[2:]
+	}
+	return s
+}
 
 func parseTypedData(types []string, args []string) ([]byte, error) {
 	typeLen := len(types)
