@@ -10,10 +10,10 @@ const (
 )
 
 func TestSignKeccak256Message(t *testing.T) {
-	expected := "0x5ae4bb272ea0e1d46b31a1dda95cf85e5a109834ffc4c8fa8b2625c37bf49ccd6109671a5a49d84cf54ff5c3feb3b59dd97e326461512e41b17b2ff113bf92a61c"
+	expected := "0xa4e0f0d47bff7cb35f4eeaf9acd22f8e9c8a72aafd69fa9af304dbe9d76c95bf752c1f259df260296eaabd9537fae31b63cbf34db6692036edd9a7f94ed1c2cb1b"
 	message := "hello world"
 	address := "0x1cE28c56C1Eb78C2d8c0059f37f6BF2B21484616"
-	value := "1000000000000000000"
+	value := "100000000000000000000000"
 	types := []string{"string", "address", "uint256"}
 	args := []string{message, address, value}
 	signature, err := SignKeccak256Message(types, args, PrivateKey)

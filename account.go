@@ -164,19 +164,13 @@ func parseTypedData(types []string, args []string) ([]byte, error) {
 			}
 			data = append(data, b.Bytes()...)
 		case "uint128":
-			i, err := strconv.ParseInt(args[i], 10, 64)
-			if err != nil {
-				return nil, err
-			}
-			bi := big.NewInt(i)
-			data = append(data, common.LeftPadBytes(bi.Bytes(), 16)...)
+			bn := new(big.Int)
+			bn.SetString(args[i], 10)
+			data = append(data, common.LeftPadBytes(bn.Bytes(), 16)...)
 		case "uint256":
-			i, err := strconv.ParseInt(args[i], 10, 64)
-			if err != nil {
-				return nil, err
-			}
-			bi := big.NewInt(i)
-			data = append(data, common.LeftPadBytes(bi.Bytes(), 32)...)
+			bn := new(big.Int)
+			bn.SetString(args[i], 10)
+			data = append(data, common.LeftPadBytes(bn.Bytes(), 32)...)
 		case "int8":
 			b := make([]byte, 1)
 			bn := new(big.Int)
